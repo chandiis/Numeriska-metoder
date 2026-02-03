@@ -8,20 +8,26 @@ def clear_console():
     
 def modell_funktion(t,a):
     #andra grads polynom, uppgift c)
+    """
     t = np.array(t)
     p = a[0] + a[1]*t + a[2]*t**2
     
-    
+    """
     #tredje grads polynom, uppgift d)
+    
+    t = np.array(t)
+    p = a[0] + a[1]*t + a[2]*t**2 + a[3]*t**3
+    
+    
+    #uppgift e)
     """
     t = np.array(t)
-    p = a[0] + a[1]*t + a[2]*t**2 + a[2]*t**3
+    p = a[0] + a[1]*np.cos(((2*np.pi)/12)*t) + a[2]*np.sin(((2*np.pi)/12)*t)
     """
     return p
-    
 
 def minstakvadratmetoden(x,y):   
-        """
+        
         #uppgift c)
         """
         n = len(x)  #antal datapunkter
@@ -39,10 +45,9 @@ def minstakvadratmetoden(x,y):
         r_2norm = np.linalg.norm(r,2)   #normen ||r||
         SE = r_2norm**2                 #minstakvadratfel
     
-        print(f"Fitted parameters: a0 = {a[0][0]:.6f}, a1 = {a[1][0]:.6f}, a3 = {a[2][0]:.6f}")
+        print(f"Fitted parameters: a0 = {a[0][0]:.6f}, a1 = {a[1][0]:.6f}, a2 = {a[2][0]:.6f}")
         print(f"\n2-normen av r = {r_2norm:6f}")
         print(f"\nSquare Error = {SE:6f}")
-        
         """
         #uppgift d)
         
@@ -61,7 +66,29 @@ def minstakvadratmetoden(x,y):
         r_2norm = np.linalg.norm(r,2)   #normen ||r||
         SE = r_2norm**2                 #minstakvadratfel
     
-        print(f"Fitted parameters: a0 = {a[0][0]:.6f}, a1 = {a[1][0]:.6f}, a3 = {a[2][0]:.6f}, a4={a[3][0]:.6f}")
+        print(f"Fitted parameters: a0 = {a[0][0]:.6f}, a1 = {a[1][0]:.6f}, a2 = {a[2][0]:.6f}, a3={a[3][0]:.6f}")
+        print(f"\n2-normen av r = {r_2norm:6f}")
+        print(f"\nSquare Error = {SE:6f}")
+        
+        #uppgift e)
+        """
+        n = len(x)  #antal datapunkter
+        x = np.array(x).reshape(n,1)    #x är kolonnvektor
+        y = np.array(y).reshape(n,1)    #y är kolonnvektor
+        
+        k = np.pi*2/12
+        A = np.hstack([x**0, np.cos(k*x), np.sin(k*x)])  #x**0 är kolonn med ettor
+        
+        #normalekvationen
+        AT = np.transpose(A)            
+        a = np.linalg.solve(AT@A,AT@y)
+        
+        #Beräkna 2-normen av residualvektorn
+        r = y - A@a                     #residualvektorn
+        r_2norm = np.linalg.norm(r,2)   #normen ||r||
+        SE = r_2norm**2                 #minstakvadratfel
+    
+        print(f"Fitted parameters: a0 = {a[0][0]:.6f}, a1 = {a[1][0]:.6f}, a2 = {a[2][0]:.6f}")
         print(f"\n2-normen av r = {r_2norm:6f}")
         print(f"\nSquare Error = {SE:6f}")
         """
@@ -90,10 +117,21 @@ def plotta(xdata,ydata,a):
     
 def main():
     clear_console()
+    
+    #uppgift c) och d)
+    
     xdata = [4,5,6,7,8]
     ydata = [871,1021,1109,1066,929]   
     a = minstakvadratmetoden(xdata, ydata)
     plotta(xdata, ydata, a)
+    
+    #uppgift e)
+    """
+    xdata = [1,2,3,4,5,6,7,8,9,10,11,12]
+    ydata = [421, 553, 709, 871, 1021, 1109, 1066, 929, 771, 612, 463, 374]
+    a = minstakvadratmetoden(xdata, ydata)
+    plotta(xdata, ydata, a)
+    """
     
 if __name__=="__main__":
     main()   
