@@ -3,7 +3,7 @@
 
 import numpy as np   #numeriska beräkningar
 import matplotlib.pyplot as plt   #plot/rita grafer
-import os
+import os   
 
 def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -13,8 +13,8 @@ def fixpunktf():
     x = np.linspace(0,1,100)      #intervallet 0 < x < L
     f= lambda x: (8/3)*x - 3*x**2 + (1/3)*x**3 - (2/3)*np.sin(np.pi*x) #f(x)
     y = f(x)                      #vektor med y-värden
-    fig, ax = plt.subplots()      #skapa instanserna fig och ax
-    ax.plot(x, y, label="f(x)")                  #ritar grafen f(x)
+    fig, ax = plt.subplots()      #skapar ett koordinatsystem
+    ax.plot(x, y, label="f(x)")   #ritar grafen f(x)
     
     #Ritningen ger 2 nollställen, dvs där f(x) = 0
     #gissningar på rötterna
@@ -25,7 +25,6 @@ def fixpunktf():
     
     ax.tick_params(labelsize=14)
     plt.grid(True,linestyle='-.')
-    #plt.ylim([0, 60])
     plt.xlabel('x')
     plt.ylabel('f(x)')
     ax.legend()
@@ -33,7 +32,13 @@ def fixpunktf():
     
     #UPPGIFT c)
 def fixpunkt_iteration(g, x0, tol, max_iter):
-    
+    """
+    Parametrar:
+        g         : fixpunktsfunktionen
+        x0        : startgissning
+        tol       : tolerans
+        max_iter  : antal interationer
+    """
     x = x0               #starta iterationen vid x0
     DeltaX = tol + 1.0   #för att loopen ska starta
     n = 0                #antal iterationer
@@ -53,9 +58,9 @@ def fixpunkt_iteration(g, x0, tol, max_iter):
         if n > max_iter:
             raise RuntimeError("Fixpunkten konvergerar inte")
     return x, n, deltas 
-    #returnerar den approximativa fixpunkten, antal iterationer och 
+    #returnerar den approximativa fixpunkten x*, antal iterationer och felen
 
-    #UPPGIFT d)
+    #UPPGIFT d) Newtons metod
 def func(x):
     f = (8/3)*x - 3*x**2 + (1/3)*x**3 - (2/3)*np.sin(np.pi*x) #f(x)
     fprim = 8/3 - 6*x + x**2 - (2/3)*np.pi*np.cos(np.pi * x) #f'(x)
@@ -87,7 +92,7 @@ def NewtonWhileLoop(func, x0, tol, max_iter):
 
 def rita(deltas_fp, deltas_newton):
     plt.figure()
-    plt.semilogy(deltas_fp, 'o-', label='Fixpunktsmetoden')
+    plt.semilogy(deltas_fp, 'o-', label='Fixpunktsmetoden') 
     plt.semilogy(deltas_newton, 's-', label='Newtons metod')
     plt.xlabel('Iteration n')
     plt.ylabel(r'$|x_{n+1} - x_n|$')
