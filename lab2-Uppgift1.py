@@ -37,6 +37,7 @@ def direction_field(f, tmin, tmax, ymin, ymax, density, scale):
     U = np.ones_like(S)
     V = S
     
+    # Normaliserade till enhetlängd
     L = np.hypot(U, V)       
     U = U / L
     V = V / L
@@ -57,9 +58,6 @@ def direction_field(f, tmin, tmax, ymin, ymax, density, scale):
     plt.legend()
     plt.tight_layout()
     plt.show()
-    
-#def plot_solution(t, y_num=None, y_ex=None, title=""):
-
 
 def main():
     clear_console()
